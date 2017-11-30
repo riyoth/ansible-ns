@@ -1,0 +1,16 @@
+---
+
+- name: Install bind
+  apt:
+    name: bind9
+    state: present
+
+- name: Install bind
+  apt:
+    name: bind9utils
+    state: present
+
+- name: Install bind
+  apt:
+    name: bind9-doc
+    state: present
