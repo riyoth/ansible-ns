@@ -1,0 +1,57 @@
+---
+- name: Install bind
+  apt:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - bind9
+    - bind9utils
+    - bind9-doc
+
+- name: Create named.conf.options
+  template: src=bind/named.conf.options.j2 dest=/etc/bind/named.conf.options
+
+- name: Create named.conf.local
+  template: src=bind/named.conf.local.j2 dest=/etc/bind/named.conf.local
+
+- name: Creates Reverse zone directory
+  file: path=/etc/bind/reverses state=directory
+
+- name: Creates forward zone directory
+  file: path=/etc/bind/zones state=directory
+
+- name: Create zone database
+  template: src=bind/zones.j2 dest=/etc/bind/zones/db.{{ item.name }}
+  vars: 
+    zone: "{{ item }}"
+  loop: "{{ zones }}"
+
+- name: ensure file exists
+  copy:
+    content: ""
+    dest: "/etc/bind/zones/db.{{ item.name }}.hand"
+    force: no
+    group: bind
+    owner: root
+    mode: 0555
+  loop: "{{ zones }}"
+
+- name: ensure file exists
+  copy:
+    content: ""
+    dest: "/etc/bind/zones/db.{{ item.name }}.auto"
+    force: no
+    group: bind
+    owner: root
+    mode: 0555
+  loop: "{{ zones }}"
+
+- name: ensure file exists
+  copy:
+    content: ""
+    dest: "/etc/bind/zones/db.{{ item.name }}.ansible"
+    force: no
+    group: bind
+    owner: root
+    mode: 0555
+  loop: "{{ zones }}"

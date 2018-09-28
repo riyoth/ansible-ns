@@ -1,16 +1,9 @@
 ---
 
-- name: Install bind
+- name: Install Utility
   apt:
-    name: bind9
+    name: "{{ item }}"
     state: present
-
-- name: Install bind
-  apt:
-    name: bind9utils
-    state: present
-
-- name: Install bind
-  apt:
-    name: bind9-doc
-    state: present
+  loop:
+    - git
+    - net-tools

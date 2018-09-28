@@ -1,0 +1,17 @@
+$TTL    604800
+@       IN      SOA     ns1.{{ zone.name }}. root.localhost. (
+              	{{ zone.serial }}      ; Serial
+              	{{ zone.refresh }}         	; Refresh
+                {{ zone.retry }}         	; Retry
+                {{ zone.expire }}         	; Expire
+                {{ zone.negative_cache_ttl}} )       	; Negative Cache TTL
+
+;
+; name servers - NS records
+				IN	NS	ns1.{{ zone.name}}.
+{% for n in zone.name_server %}
+{{ n.name }}	IN  A 	{{ n.ip }}
+{% endfor %}
+$INCLUDE /etc/bind/zones/db.{{ zone.name }}.hand 
+$INCLUDE /etc/bind/zones/db.{{ zone.name }}.auto
+$INCLUDE /etc/bind/zones/db.{{ zone.name }}.ansible
