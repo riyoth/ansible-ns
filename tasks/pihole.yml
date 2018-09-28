@@ -1,0 +1,14 @@
+---
+- name: Clone a private repository into /opt.
+  git:
+    repo: https://github.com/pi-hole/pi-hole.git 
+    version: master
+    dest: /opt/pi-hole
+    accept_hostkey: yes
+  become: no
+
+- name: Creates directory
+  file: path=/etc/pihole/ state=directory
+
+- name: copy configuration 
+  template: src=pihole/setupVars.conf.j2 dest=/etc/pihole/setupVars.conf

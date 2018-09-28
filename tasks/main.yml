@@ -1,3 +1,7 @@
 ---
 - name: Install DNS package
   include: install.yml
+- name: Install Pi hole
+  include: pihole.yml
+- name: Install Bind
+  include: bind.yml
