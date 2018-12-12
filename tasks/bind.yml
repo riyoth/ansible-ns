@@ -22,9 +22,12 @@
 
 - name: Create zone database
   template: src=bind/zones.j2 dest=/etc/bind/zones/db.{{ item.name }}
+  become: yes
   vars: 
     zone: "{{ item }}"
   loop: "{{ zones }}"
+  notify: reload bind
+  tags: ['update']
 
 - name: ensure file exists
   copy:

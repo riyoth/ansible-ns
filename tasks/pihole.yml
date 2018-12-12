@@ -5,7 +5,7 @@
     version: master
     dest: /opt/pi-hole
     accept_hostkey: yes
-  become: no
+  become: yes
 
 - name: Creates directory
   file: path=/etc/pihole/ state=directory
